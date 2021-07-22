@@ -24,6 +24,7 @@ set (sources
   ContactVisual.cc
   Conversions.cc
   CustomPSSMShadowCameraSetup.cc
+  CustomSpotlightShadowCameraSetup.cc
   DepthCamera.cc
   Distortion.cc
   DynamicLines.cc
