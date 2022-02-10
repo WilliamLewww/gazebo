@@ -3404,19 +3404,20 @@ void Scene::AddVisual(VisualPtr _vis)
 /////////////////////////////////////////////////
 void Scene::RemoveVisual(uint32_t _id)
 {
+  // Remove the terrain object if this is the heightmap visual
+  if (this->dataPtr->terrainVisualId &&
+      *this->dataPtr->terrainVisualId == _id)
+  {
+    delete this->dataPtr->terrain;
+    this->dataPtr->terrain = NULL;
+    this->dataPtr->terrainVisualId.reset();
+  }
+
   // Delete the visual
   auto iter = this->dataPtr->visuals.find(_id);
   if (iter != this->dataPtr->visuals.end())
   {
     VisualPtr vis = iter->second;
-    // Remove the terrain object if this is the heightmap visual
-    if (this->dataPtr->terrainVisualId &&
-        *this->dataPtr->terrainVisualId == _id)
-    {
-      delete this->dataPtr->terrain;
-      this->dataPtr->terrain = NULL;
-      this->dataPtr->terrainVisualId.reset();
-    }
     // Remove all projectors attached to the visual
     auto piter = this->dataPtr->projectors.begin();
     while (piter != this->dataPtr->projectors.end())
